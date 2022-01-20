@@ -17,10 +17,10 @@ let lastPriceFTM = null;
 
 wsETH.onmessage = (Event) => {
     let ethPriceObject = JSON.parse(Event.data);
-    let price = parseFloat(ethPriceObject.bids[0]).toFixed(2);
+    let price = parseFloat(ethPriceObject.bids[0]).toFixed(4);
 
 
-    ethPriceElement.innerText = parseFloat(ethPriceObject.bids[0]).toFixed(2);
+    ethPriceElement.innerText = parseFloat(ethPriceObject.bids[0]).toFixed(4);
     if (!lastPriceETH || lastPriceETH === price) {
         ethPriceElement.style.color = '#ffffff';
     }else if (lastPriceETH < price) {
@@ -32,10 +32,10 @@ wsETH.onmessage = (Event) => {
 };
 wsFTM.onmessage = (Event) => {
     let ftmPriceObject = JSON.parse(Event.data);
-    let price = parseFloat(ftmPriceObject.bids[0]).toFixed(2);
+    let price = parseFloat(ftmPriceObject.bids[0]).toFixed(4);
 
 
-    ftmPriceElement.innerText = parseFloat(ftmPriceObject.bids[0]).toFixed(2);
+    ftmPriceElement.innerText = parseFloat(ftmPriceObject.bids[0]).toFixed(4);
     if (!lastPriceFTM || lastPriceFTM === price) {
         ftmPriceElement.style.color = '#ffffff';
     }else if (lastPriceFTM < price) {
@@ -47,10 +47,10 @@ wsFTM.onmessage = (Event) => {
 };
 wsBTC.onmessage = (Event) => {
     let btcPriceObject = JSON.parse(Event.data);
-    let price = parseFloat(btcPriceObject.bids[0]).toFixed(2);
+    let price = parseFloat(btcPriceObject.bids[0]).toFixed(4);
 
 
-    btcPriceElement.innerText = parseFloat(btcPriceObject.bids[0]).toFixed(2);
+    btcPriceElement.innerText = parseFloat(btcPriceObject.bids[0]).toFixed(4);
     if (!lastPriceBTC || lastPriceBTC === price) {
         btcPriceElement.style.color = '#ffffff';
     }else if (lastPriceBTC < price) {
@@ -62,10 +62,10 @@ wsBTC.onmessage = (Event) => {
 };
 wsADA.onmessage = (Event) => {
     let adaPriceObject = JSON.parse(Event.data);
-    let price = parseFloat(adaPriceObject.bids[0]).toFixed(2);
+    let price = parseFloat(adaPriceObject.bids[0]).toFixed(4);
 
 
-    adaPriceElement.innerText = parseFloat(adaPriceObject.bids[0]).toFixed(2);
+    adaPriceElement.innerText = parseFloat(adaPriceObject.bids[0]).toFixed(4);
     if (!lastPriceADA || lastPriceADA === price) {
         ethPriceElement.style.color = '#ffffff';
     }else if (lastPriceADA < price) {
@@ -77,10 +77,10 @@ wsADA.onmessage = (Event) => {
 };
 wsCAKE.onmessage = (Event) => {
     let cakePriceObject = JSON.parse(Event.data);
-    let price = parseFloat(cakePriceObject.bids[0]).toFixed(2);
+    let price = parseFloat(cakePriceObject.bids[0]).toFixed(4);
 
 
-    cakePriceElement.innerText = parseFloat(cakePriceObject.bids[0]).toFixed(2);
+    cakePriceElement.innerText = parseFloat(cakePriceObject.bids[0]).toFixed(4);
     if (!lastPriceCAKE || lastPriceCAKE === price) {
         ethPriceElement.style.color = '#ffffff';
     }else if (lastPriceCAKE < price) {
