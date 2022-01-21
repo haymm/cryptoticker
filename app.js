@@ -22,7 +22,7 @@ wsETH.onmessage = (Event) => {
 
     ethPriceElement.innerText = parseFloat(ethPriceObject.bids[0]).toFixed(4);
     if (!lastPriceETH || lastPriceETH === price) {
-        ethPriceElement.style.color = '#ffffff';
+        ethPriceElement.style.color = '#000000';
     }else if (lastPriceETH < price) {
         ethPriceElement.style.color = 'green';
     }else {
@@ -37,7 +37,7 @@ wsFTM.onmessage = (Event) => {
 
     ftmPriceElement.innerText = parseFloat(ftmPriceObject.bids[0]).toFixed(4);
     if (!lastPriceFTM || lastPriceFTM === price) {
-        ftmPriceElement.style.color = '#ffffff';
+        ftmPriceElement.style.color = '#000000';
     }else if (lastPriceFTM < price) {
         ftmPriceElement.style.color = 'green';
     }else {
@@ -52,7 +52,7 @@ wsBTC.onmessage = (Event) => {
 
     btcPriceElement.innerText = parseFloat(btcPriceObject.bids[0]).toFixed(4);
     if (!lastPriceBTC || lastPriceBTC === price) {
-        btcPriceElement.style.color = '#ffffff';
+        btcPriceElement.style.color = '#000000';
     }else if (lastPriceBTC < price) {
         btcPriceElement.style.color = 'green';
     }else {
@@ -67,7 +67,7 @@ wsADA.onmessage = (Event) => {
 
     adaPriceElement.innerText = parseFloat(adaPriceObject.bids[0]).toFixed(4);
     if (!lastPriceADA || lastPriceADA === price) {
-        ethPriceElement.style.color = '#ffffff';
+        ethPriceElement.style.color = '#000000';
     }else if (lastPriceADA < price) {
         ethPriceElement.style.color = 'green';
     }else {
@@ -82,7 +82,7 @@ wsCAKE.onmessage = (Event) => {
 
     cakePriceElement.innerText = parseFloat(cakePriceObject.bids[0]).toFixed(4);
     if (!lastPriceCAKE || lastPriceCAKE === price) {
-        ethPriceElement.style.color = '#ffffff';
+        ethPriceElement.style.color = '#000000';
     }else if (lastPriceCAKE < price) {
         ethPriceElement.style.color = 'green';
     }else {
