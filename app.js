@@ -1,19 +1,26 @@
 let wsETH = new WebSocket('wss://stream.binance.com:9443/ws/ethusdt@depth20@1000ms');
-let ethPriceElement = document.getElementById('eth-price');
+let ethPriceElement = document.getElementById('eth-currentPrice');
 let wsBTC = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms');
-let btcPriceElement = document.getElementById('btc-price');
+let btcPriceElement = document.getElementById('btc-currentPrice');
 let wsADA = new WebSocket('wss://stream.binance.com:9443/ws/adausdt@depth20@1000ms');
-let adaPriceElement = document.getElementById('ada-price');
+let adaPriceElement = document.getElementById('ada-currentPrice');
 let wsCAKE = new WebSocket('wss://stream.binance.com:9443/ws/cakeusdt@depth20@1000ms');
-let cakePriceElement = document.getElementById('cake-price');
+let cakePriceElement = document.getElementById('cake-currentPrice');
 let wsFTM = new WebSocket('wss://stream.binance.com:9443/ws/ftmusdt@depth20@1000ms');
-let ftmPriceElement = document.getElementById('ftm-price');
+let ftmPriceElement = document.getElementById('ftm-currentPrice');
 
 let lastPriceETH = null;
 let lastPriceBTC = null;
 let lastPriceADA = null;
 let lastPriceCAKE = null;
 let lastPriceFTM = null;
+
+let entryPriceADA = 1.29;
+let entryPriceCAKE = 11.43;
+let entryPriceETH = 2598.52;
+let entryPriceFTM = 2.68;
+let entryPriceLUNA = 70.1;
+let entryPriceOMI = 0.075;
 
 wsETH.onmessage = (Event) => {
     let ethPriceObject = JSON.parse(Event.data);
