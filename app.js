@@ -1,9 +1,9 @@
 let wsETH = new WebSocket('wss://stream.binance.com:9443/ws/ethusdt@depth20@1000ms');
 let ethPriceElement = document.getElementById('eth-currentPrice');
 let ethPercentChangeElement = document.getElementById('eth-percentChange');
-let wsBTC = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@depth20@1000ms');
-let btcPriceElement = document.getElementById('btc-currentPrice');
-let btcPercentChangeElement = document.getElementById('btc-percentChange');
+let wsDYDX = new WebSocket('wss://stream.binance.com:9443/ws/dydxusdt@depth20@1000ms');
+let dydxPriceElement = document.getElementById('dydx-currentPrice');
+let dydxPercentChangeElement = document.getElementById('dydx-percentChange');
 let wsADA = new WebSocket('wss://stream.binance.com:9443/ws/adausdt@depth20@1000ms');
 let adaPriceElement = document.getElementById('ada-currentPrice');
 let adaPercentChangeElement = document.getElementById('ada-percentChange');
@@ -17,20 +17,58 @@ let wsLUNA = new WebSocket('wss://stream.binance.com:9443/ws/lunausdt@depth20@10
 let lunaPriceElement = document.getElementById('luna-currentPrice');
 let lunaPercentChangeElement = document.getElementById('luna-percentChange');
 
+let wsOMI = new WebSocket('wss://ws.gate.io/v3');
+// let omiPriceElement = document.getElementById('omi-currentPrice');
+// let omiPriceElement = 
+
+function socket_send_cmd(wsOMI, cmd, params) {
+    if (!params)
+        params = [];
+    let msg = {
+        id: client_id,
+        method: cmd,
+        params: params
+    };
+    wsOMI.send(JSON.stringify(msg));
+}
+
+wsOMI.onopen = function () {
+    console.log("Connected");
+    socket_send_cmd(wsOMI, 'depth.query', ["OMI_USDT", 5, "0.0001"]);
+};
+
 let lastPriceETH = null;
-let lastPriceBTC = null;
+let lastPriceDYDX = null;
 let lastPriceADA = null;
 let lastPriceCAKE = null;
 let lastPriceFTM = null;
 let lastPriceLUNA = null;
 
 let entryPriceADA = 1.2900;
+let entryPriceADAElement = document.getElementById('ada-entryPrice');
+entryPriceADAElement.innerText = entryPriceADA.toFixed(4);
 let entryPriceCAKE = 11.4300;
+let entryPriceCAKEElement = document.getElementById('cake-entryPrice');
+entryPriceCAKEElement.innerText = entryPriceCAKE.toFixed(4);
 let entryPriceETH = 2506.1200;
+let entryPriceETHElement = document.getElementById('eth-entryPrice');
+entryPriceETHElement.innerText = entryPriceETH.toFixed(4);
 let entryPriceFTM = 2.6800;
+let entryPriceFTMElement = document.getElementById('ftm-entryPrice');
+entryPriceFTMElement.innerText = entryPriceFTM.toFixed(4);
 let entryPriceLUNA = 70.1000;
+let entryPriceLUNAElement = document.getElementById('luna-entryPrice');
+entryPriceLUNAElement.innerText = entryPriceLUNA.toFixed(4);
 let entryPriceOMI = 0.0750;
-//let entryPriceBTC = 1000;
+let entryPriceOMIElement = document.getElementById('omi-entryPrice');
+entryPriceOMIElement.innerText = entryPriceOMI.toFixed(4);
+let entryPriceDYDX = 6.4842;
+let entryPriceDYDXElement = document.getElementById('dydx-entryPrice');
+entryPriceDYDXElement.innerText = entryPriceDYDX.toFixed(4);
+
+wsOMI.onmessage = (Event) => {
+    console.log('Server: ' + Event.data);
+}
 
 wsETH.onmessage = (Event) => {
     let ethPriceObject = JSON.parse(Event.data);
@@ -46,7 +84,7 @@ wsETH.onmessage = (Event) => {
         ethPriceElement.style.color = 'red';
     }
     lastPriceETH = price;
-    ethPercentChange = (( (parseFloat(ethPriceObject.bids[0]).toFixed(4) - entryPriceETH ) / parseFloat(ethPriceObject.bids[0]).toFixed(4) ) * 100).toFixed(1);
+    ethPercentChange = (( (parseFloat(ethPriceObject.bids[0]).toFixed(4) - entryPriceETH ) / entryPriceETH ) * 100).toFixed(2);
     ethPercentChangeElement.innerText = ethPercentChange + '%';
     if (ethPercentChange >= 0) {
         ethPercentChangeElement.style.color = 'green';
@@ -69,7 +107,7 @@ wsFTM.onmessage = (Event) => {
         ftmPriceElement.style.color = 'red';
     }
     lastPriceFTM = price;
-    let ftmPercentChange = (( (parseFloat(ftmPriceObject.bids[0]).toFixed(4) - entryPriceFTM ) / parseFloat(ftmPriceObject.bids[0]).toFixed(4) ) * 100).toFixed(1);
+    let ftmPercentChange = (( (parseFloat(ftmPriceObject.bids[0]).toFixed(4) - entryPriceFTM ) / entryPriceFTM ) * 100).toFixed(2);
     ftmPercentChangeElement.innerText = ftmPercentChange + '%';
     if (ethPercentChange > 0) {
         ftmPercentChangeElement.style.color = 'green';
@@ -77,26 +115,26 @@ wsFTM.onmessage = (Event) => {
         ftmPercentChangeElement.style.color = 'red';
     }
 };
-wsBTC.onmessage = (Event) => {
-    let btcPriceObject = JSON.parse(Event.data);
-    let price = parseFloat(btcPriceObject.bids[0]).toFixed(4);
+wsDYDX.onmessage = (Event) => {
+    let dydxPriceObject = JSON.parse(Event.data);
+    let price = parseFloat(dydxPriceObject.bids[0]).toFixed(4);
 
 
-    btcPriceElement.innerText = parseFloat(btcPriceObject.bids[0]).toFixed(4);
-    if (!lastPriceBTC || lastPriceBTC === price) {
-        btcPriceElement.style.color = '#000000';
-    }else if (lastPriceBTC < price) {
-        btcPriceElement.style.color = 'green';
+    dydxPriceElement.innerText = parseFloat(dydxPriceObject.bids[0]).toFixed(4);
+    if (!lastPriceDYDX || lastPriceDYDX === price) {
+        dydxPriceElement.style.color = '#000000';
+    }else if (lastPriceDYDX < price) {
+        dydxPriceElement.style.color = 'green';
     }else {
-        btcPriceElement.style.color = 'red';
+        dydxPriceElement.style.color = 'red';
     }
-    lastPriceBTC = price;
-    btcPercentChange = (( (parseFloat(btcPriceObject.bids[0]).toFixed(4) - entryPriceBTC ) / parseFloat(btcPriceObject.bids[0]).toFixed(4) ) * 100).toFixed(1);
-    btcPercentChangeElement.innerText = btcPercentChange + '%';
-    if (btcPercentChange > 0) {
-        btcPercentChangeElement.style.color = 'green';
+    lastPriceDYDX = price;
+    dydxPercentChange = (( (parseFloat(dydxPriceObject.bids[0]).toFixed(4) - entryPriceDYDX ) / entryPriceDYDX ) * 100).toFixed(2);
+    dydxPercentChangeElement.innerText = dydxPercentChange + '%';
+    if (dydxPercentChange > 0) {
+        dydxPercentChangeElement.style.color = 'green';
     } else {
-        btcPercentChangeElement.style.color = 'red';
+        dydxPercentChangeElement.style.color = 'red';
     }
 };
 wsADA.onmessage = (Event) => {
@@ -113,7 +151,7 @@ wsADA.onmessage = (Event) => {
         adaPriceElement.style.color = 'red';
     }
     lastPriceADA = price;
-    adaPercentChange = (( (parseFloat(adaPriceObject.bids[0]).toFixed(4) - entryPriceADA ) / parseFloat(adaPriceObject.bids[0]).toFixed(4) ) * 100).toFixed(1);
+    adaPercentChange = (( (parseFloat(adaPriceObject.bids[0]).toFixed(4) - entryPriceADA ) / entryPriceADA ) * 100).toFixed(2);
     adaPercentChangeElement.innerText = adaPercentChange + '%';
     if (adaPercentChange > 0) {
         adaPercentChangeElement.style.color = 'green';
@@ -135,6 +173,13 @@ wsCAKE.onmessage = (Event) => {
         cakePriceElement.style.color = 'red';
     }
     lastPriceCAKE = price;
+    cakePercentChange = (( (parseFloat(cakePriceObject.bids[0]).toFixed(4) - entryPriceCAKE ) / entryPriceCAKE ) * 100).toFixed(2);
+    cakePercentChangeElement.innerText = cakePercentChange + '%';
+    if (cakePercentChange > 0) {
+        cakePercentChangeElement.style.color = 'green';
+    } else {
+        cakePercentChangeElement.style.color = 'red';
+    }
 };
 wsLUNA.onmessage = (Event) => {
     let lunaPriceObject = JSON.parse(Event.data);
@@ -150,4 +195,11 @@ wsLUNA.onmessage = (Event) => {
         lunaPriceElement.style.color = 'red';
     }
     lastPriceLUNA = price;
+    lunaPercentChange = (( (parseFloat(lunaPriceObject.bids[0]).toFixed(4) - entryPriceLUNA ) / entryPriceLUNA ) * 100).toFixed(2);
+    lunaPercentChangeElement.innerText = lunaPercentChange + '%';
+    if (lunaPercentChange > 0) {
+        lunaPercentChangeElement.style.color = 'green';
+    } else {
+        lunaPercentChangeElement.style.color = 'red';
+    }
 };
