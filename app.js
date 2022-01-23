@@ -17,26 +17,6 @@ let wsLUNA = new WebSocket('wss://stream.binance.com:9443/ws/lunausdt@depth20@10
 let lunaPriceElement = document.getElementById('luna-currentPrice');
 let lunaPercentChangeElement = document.getElementById('luna-percentChange');
 
-let wsOMI = new WebSocket('wss://ws.gate.io/v3');
-// let omiPriceElement = document.getElementById('omi-currentPrice');
-// let omiPriceElement = 
-
-function socket_send_cmd(wsOMI, cmd, params) {
-    if (!params)
-        params = [];
-    let msg = {
-        id: client_id,
-        method: cmd,
-        params: params
-    };
-    wsOMI.send(JSON.stringify(msg));
-}
-
-wsOMI.onopen = function () {
-    console.log("Connected");
-    socket_send_cmd(wsOMI, 'depth.query', ["OMI_USDT", 5, "0.0001"]);
-};
-
 let lastPriceETH = null;
 let lastPriceDYDX = null;
 let lastPriceADA = null;
@@ -66,9 +46,6 @@ let entryPriceDYDX = 6.4842;
 let entryPriceDYDXElement = document.getElementById('dydx-entryPrice');
 entryPriceDYDXElement.innerText = entryPriceDYDX.toFixed(4);
 
-wsOMI.onmessage = (Event) => {
-    console.log('Server: ' + Event.data);
-}
 
 wsETH.onmessage = (Event) => {
     let ethPriceObject = JSON.parse(Event.data);
