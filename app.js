@@ -86,7 +86,7 @@ wsFTM.onmessage = (Event) => {
     lastPriceFTM = price;
     let ftmPercentChange = (( (parseFloat(ftmPriceObject.bids[0]).toFixed(4) - entryPriceFTM ) / entryPriceFTM ) * 100).toFixed(2);
     ftmPercentChangeElement.innerText = ftmPercentChange + '%';
-    if (ethPercentChange > 0) {
+    if (ftmPercentChange > 0) {
         ftmPercentChangeElement.style.color = 'green';
     } else {
         ftmPercentChangeElement.style.color = 'red';
