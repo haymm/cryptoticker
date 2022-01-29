@@ -1,1 +1,1 @@
-Web interface for keeping track of crypto portfolio
+A web interface for keeping track of my crypto portfolio
