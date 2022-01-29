@@ -24,6 +24,18 @@ let lastPriceCAKE = null;
 let lastPriceFTM = null;
 let lastPriceLUNA = null;
 
+const omi_api_url = 'https://api.coingecko.com/api/v3/simple/price?ids=ecomi&vs_currencies=usd';
+
+async function getOMI() {
+
+    const response = await fetch(omi_api_url);
+    const data = await response.json();
+    let omi_price = data.ecomi.usd;
+    document.getElementById('omi-price').innerText = omi_price;
+};
+
+getOMI();
+
 let entryPriceADA = 1.2900;
 let entryPriceADAElement = document.getElementById('ada-entryPrice');
 entryPriceADAElement.innerText = entryPriceADA.toFixed(4);
