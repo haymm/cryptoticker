@@ -26,15 +26,21 @@ let lastPriceLUNA = null;
 
 const omi_api_url = 'https://api.coingecko.com/api/v3/simple/price?ids=ecomi&vs_currencies=usd';
 
-async function getOMI() {
+setInterval( async function () {
 
     const response = await fetch(omi_api_url);
     const data = await response.json();
     let omi_price = data.ecomi.usd;
     document.getElementById('omi-price').innerText = omi_price;
-};
+    let omiPercentChange = parseFloat((((omi_price - entryPriceOMI) / entryPriceOMI) * 100))
+    document.getElementById('omi-percentChange').innerText = omiPercentChange.toFixed(2) + '%';
+    if (omiPercentChange >= 0) {
+        document.getElementById('omi-percentChange').style.color = 'green';
+    } else {
+        document.getElementById('omi-percentChange').style.color = 'red';
+    }
+}, 2000);
 
-getOMI();
 
 let entryPriceADA = 1.2900;
 let entryPriceADAElement = document.getElementById('ada-entryPrice');
@@ -51,7 +57,7 @@ entryPriceFTMElement.innerText = entryPriceFTM.toFixed(4);
 let entryPriceLUNA = 70.1000;
 let entryPriceLUNAElement = document.getElementById('luna-entryPrice');
 entryPriceLUNAElement.innerText = entryPriceLUNA.toFixed(4);
-let entryPriceOMI = 0.0750;
+let entryPriceOMI = 0.00750;
 let entryPriceOMIElement = document.getElementById('omi-entryPrice');
 entryPriceOMIElement.innerText = entryPriceOMI.toFixed(4);
 let entryPriceDYDX = 6.4842;
